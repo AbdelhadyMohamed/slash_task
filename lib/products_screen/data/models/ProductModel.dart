@@ -2,16 +2,12 @@ class ProductModel {
   ProductModel({
     this.statusCode,
     this.message,
-    this.pagination,
     this.data,
   });
 
   ProductModel.fromJson(dynamic json) {
     statusCode = json['statusCode'];
     message = json['message'];
-    pagination = json['pagination'] != null
-        ? Pagination.fromJson(json['pagination'])
-        : null;
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
@@ -21,21 +17,7 @@ class ProductModel {
   }
   int? statusCode;
   String? message;
-  Pagination? pagination;
   List<Data>? data;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['statusCode'] = statusCode;
-    map['message'] = message;
-    if (pagination != null) {
-      map['pagination'] = pagination?.toJson();
-    }
-    if (data != null) {
-      map['data'] = data?.map((v) => v.toJson()).toList();
-    }
-    return map;
-  }
 }
 
 class Data {
@@ -96,33 +78,6 @@ class Data {
   List<ProductVariations>? productVariations;
   SubCategories? subCategories;
   dynamic sizeChart;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['description'] = description;
-    map['sub_category_id'] = subCategoryId;
-    map['brand_id'] = brandId;
-    map['bosta_size_id'] = bostaSizeId;
-    map['createdAt'] = createdAt;
-    map['updatedAt'] = updatedAt;
-    map['deletedAt'] = deletedAt;
-    map['product_rating'] = productRating;
-    map['estimated_days_preparing'] = estimatedDaysPreparing;
-    if (brands != null) {
-      map['Brands'] = brands?.toJson();
-    }
-    if (productVariations != null) {
-      map['ProductVariations'] =
-          productVariations?.map((v) => v.toJson()).toList();
-    }
-    if (subCategories != null) {
-      map['SubCategories'] = subCategories?.toJson();
-    }
-    map['SizeChart'] = sizeChart;
-    return map;
-  }
 }
 
 class SubCategories {
@@ -152,18 +107,6 @@ class SubCategories {
   String? updatedAt;
   int? categoryId;
   String? imagePath;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['deletedAt'] = deletedAt;
-    map['createdAt'] = createdAt;
-    map['updatedAt'] = updatedAt;
-    map['category_id'] = categoryId;
-    map['image_path'] = imagePath;
-    return map;
-  }
 }
 
 class ProductVariations {
@@ -212,27 +155,6 @@ class ProductVariations {
   int? productVariationStatusId;
   ProductStatusLookups? productStatusLookups;
   List<ProductVarientImages>? productVarientImages;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['product_id'] = productId;
-    map['price'] = price;
-    map['quantity'] = quantity;
-    map['is_default'] = isDefault;
-    map['deletedAt'] = deletedAt;
-    map['createdAt'] = createdAt;
-    map['updatedAt'] = updatedAt;
-    map['product_variation_status_id'] = productVariationStatusId;
-    if (productStatusLookups != null) {
-      map['ProductStatusLookups'] = productStatusLookups?.toJson();
-    }
-    if (productVarientImages != null) {
-      map['ProductVarientImages'] =
-          productVarientImages?.map((v) => v.toJson()).toList();
-    }
-    return map;
-  }
 }
 
 class ProductVarientImages {
@@ -256,16 +178,6 @@ class ProductVarientImages {
   dynamic productVarientId;
   String? createdAt;
   String? updatedAt;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['image_path'] = imagePath;
-    map['product_varient_id'] = productVarientId;
-    map['createdAt'] = createdAt;
-    map['updatedAt'] = updatedAt;
-    return map;
-  }
 }
 
 class ProductStatusLookups {
@@ -286,15 +198,6 @@ class ProductStatusLookups {
   String? name;
   String? createdAt;
   String? updatedAt;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['createdAt'] = createdAt;
-    map['updatedAt'] = updatedAt;
-    return map;
-  }
 }
 
 class Brands {
@@ -369,48 +272,4 @@ class Brands {
   int? brandRating;
   int? daysLimitToReturn;
   dynamic planId;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['brand_name'] = brandName;
-    map['brand_facebook_page_link'] = brandFacebookPageLink;
-    map['brand_instagram_page_link'] = brandInstagramPageLink;
-    map['brand_website_link'] = brandWebsiteLink;
-    map['brand_mobile_number'] = brandMobileNumber;
-    map['brand_email_address'] = brandEmailAddress;
-    map['tax_id_number'] = taxIdNumber;
-    map['brand_description'] = brandDescription;
-    map['brand_logo_image_path'] = brandLogoImagePath;
-    map['brand_status_id'] = brandStatusId;
-    map['brand_store_address_id'] = brandStoreAddressId;
-    map['brand_category_id'] = brandCategoryId;
-    map['deletedAt'] = deletedAt;
-    map['createdAt'] = createdAt;
-    map['updatedAt'] = updatedAt;
-    map['brand_seller_id'] = brandSellerId;
-    map['brand_id'] = brandId;
-    map['slash_contract_path'] = slashContractPath;
-    map['brand_rating'] = brandRating;
-    map['days_limit_to_return'] = daysLimitToReturn;
-    map['planId'] = planId;
-    return map;
-  }
-}
-
-class Pagination {
-  Pagination({
-    this.pages,
-  });
-
-  Pagination.fromJson(dynamic json) {
-    pages = json['pages'];
-  }
-  dynamic pages;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['pages'] = pages;
-    return map;
-  }
 }

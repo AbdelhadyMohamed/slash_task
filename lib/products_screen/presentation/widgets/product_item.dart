@@ -17,7 +17,9 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.screenDetails);
+        Navigator.pushNamed(context, AppRoutes.screenDetails,
+            arguments:
+                index); //moving to product details with passing the  index of the current item
       },
       child: Column(
         children: [
@@ -42,13 +44,11 @@ class ProductItem extends StatelessWidget {
           Row(children: [
             SizedBox(
               width: 100.w,
-              child: Flexible(
-                child: Text(
-                    "${productModel?.data?[index].brands?.brandName} - ${productModel?.data?[index].name}",
-                    maxLines: 2,
-                    //overflow: TextOverflow.fade,
-                    style: Styles.textStyle1),
-              ),
+              child: Text(
+                  "${productModel?.data?[index].brands?.brandName} - ${productModel?.data?[index].name}",
+                  maxLines: 2,
+                  //overflow: TextOverflow.fade,
+                  style: Styles.textStyle1),
             ),
             const Spacer(),
             CachedNetworkImage(
