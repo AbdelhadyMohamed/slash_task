@@ -21,26 +21,36 @@ class ProductScreen extends StatelessWidget {
         centerTitle: true,
         title: Text(Strings.slash, style: Styles.textStyle2),
       ),
-      body: BlocProvider(
-        create: (context) =>
-            ProductBloc(getIt<ProductListUseCase>())..add(FetchAllProducts()),
+      body:
+          BlocProvider // using bloc provider to create the product list provider
+              (
+        create: (context) => ProductBloc(getIt<ProductListUseCase>())
+          ..add(
+              FetchAllProducts()), // fetching data before ui so the current state holds the data
         child: BlocBuilder<ProductBloc, ProductState>(
           builder: (context, state) {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 15.h),
-              child: GridView.builder(
-                itemBuilder: (context, index) =>
-                    ProductItem(productModel: state.productModel, index: index),
-                itemCount: 5,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 13.w /
-                      23.h, // small edit in the h/w ratio of each item to look prettier
-                  crossAxisCount: 2, // number of items in each row
-                  mainAxisSpacing: 40.h, // spacing between rows
-                  crossAxisSpacing: 40.w,
-                ),
-              ),
-            );
+            return state.screenStatus ==
+                    ScreenStatus
+                        .success // if data is loaded or fetched so the ui is shown
+                ? Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 40.w, vertical: 15.h),
+                    child: GridView.builder(
+                      itemBuilder: (context, index) => ProductItem(
+                          productModel: state.productModel, index: index),
+                      itemCount: 5,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 13.w /
+                            23.h, // small edit in the h/w ratio of each item to look prettier
+                        crossAxisCount: 2, // number of items in each row
+                        mainAxisSpacing: 40.h, // spacing between rows
+                        crossAxisSpacing: 40.w,
+                      ),
+                    ),
+                  )
+                : const Center(
+                    child:
+                        CircularProgressIndicator()); // show progress indicator if data not showed yet
           },
         ),
       ),

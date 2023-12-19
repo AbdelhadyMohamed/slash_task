@@ -46,8 +46,7 @@ class ProductItem extends StatelessWidget {
               width: 100.w,
               child: Text(
                   "${productModel?.data?[index].brands?.brandName} - ${productModel?.data?[index].name}",
-                  maxLines: 2,
-                  //overflow: TextOverflow.fade,
+                  maxLines: 2, // in case of overflow
                   style: Styles.textStyle1),
             ),
             const Spacer(),
