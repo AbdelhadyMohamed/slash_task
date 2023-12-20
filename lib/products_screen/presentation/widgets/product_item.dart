@@ -18,8 +18,8 @@ class ProductItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, AppRoutes.screenDetails,
-            arguments:
-                index); //moving to product details with passing the  index of the current item
+            arguments: productModel?.data?[
+                index]); //moving to product details with passing the  index of the current item
       },
       child: Column(
         children: [

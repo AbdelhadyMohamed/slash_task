@@ -5,6 +5,7 @@ import 'package:slash/products_screen/presentation/pages/product_details_screen.
 import 'package:slash/products_screen/presentation/pages/product_screen.dart';
 
 import 'config.dart';
+import 'detailed_product_screen/presentation/pages/product_details_screen.dart';
 
 void main() {
   configureDependencies();

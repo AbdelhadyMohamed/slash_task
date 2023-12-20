@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../utils/constants.dart';
 
-@singleton
+@singleton // used singleton design pattern (injectable package) to create only one object of api manager class
 class ApiManager {
   late Dio dio;
   ApiManager() {
