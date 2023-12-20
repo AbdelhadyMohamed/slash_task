@@ -129,7 +129,10 @@ Set<String>? getSizesList(
       sizesList = {};
       for (int j = 0; j < prop[i].values!.length; j++) {
         if (prop[i].values![j].value != null) {
-          sizesList.add(prop[i].values![j].value!);
+          sizesList.add(prop[i]
+              .values![j]
+              .value!
+              .toUpperCase()); // to upper case because some sizes are in lower case and rest of them are upper
         }
       }
       break;

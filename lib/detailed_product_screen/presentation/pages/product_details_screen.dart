@@ -32,88 +32,204 @@ class ProductDetailsScreen extends StatelessWidget {
           ..add(FetchProductDetails(product.id.toString())),
         child: BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
           builder: (context, state) {
-            print(state.areThereColors);
-            print(state.colorsList?.elementAt(0));
+            //print(state.areThereColors);
+            // print(state.sizesList?.length);
             // print(state.areThereMaterials);
-            // print(state.areThereSizes);
+            //  print(state.areThereSizes);
             return state.screenState ==
                     ScreenState
-                        .success //in this step i make sure that the images is loaded first before showing the carousal slider to avoid getting null value
-                ? Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CarouselSlider.builder(
-                            options: CarouselOptions(
-                              animateToClosest: true,
-                              height: 350.h,
-                              aspectRatio: 16 / 9,
-                              enableInfiniteScroll: true,
-                              enlargeCenterPage: true,
-                              enlargeFactor: 0.4,
-                              scrollDirection: Axis.horizontal,
-                            ),
-                            itemCount: product.productVariations?[0]
-                                .productVarientImages?.length,
-                            itemBuilder: (BuildContext context, int index,
-                                    int realIndex) =>
-                                CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    //  height: 400.h,
-                                    imageUrl: product
-                                            .productVariations?[0]
-                                            .productVarientImages?[index]
-                                            .imagePath ??
-                                        "",
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons
-                                            .error))), //show error icon in case of any error in the image
-                        Row(children: [
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        .success // in this step i make sure that the images is loaded first before showing the carousal slider to avoid getting null value
+                ? SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CarouselSlider.builder(
+                              options: CarouselOptions(
+                                animateToClosest: true,
+                                height: 350.h,
+                                aspectRatio: 16 / 9,
+                                enableInfiniteScroll: true,
+                                enlargeCenterPage: true,
+                                enlargeFactor: 0.4,
+                                scrollDirection: Axis.horizontal,
+                              ),
+                              itemCount: product.productVariations?[0]
+                                  .productVarientImages?.length,
+                              itemBuilder: (BuildContext context, int index,
+                                      int realIndex) =>
+                                  CachedNetworkImage(
+                                      fit: BoxFit.fitWidth,
+                                      width: 250.w,
+                                      imageUrl: product
+                                              .productVariations?[0]
+                                              .productVarientImages?[index]
+                                              .imagePath ??
+                                          "",
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons
+                                              .error))), //show error icon in case of any error in the image
+                          Row(children: [
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(product.description ?? "",
+                                      style: Styles.textStyle1),
+                                  Text(product.name ?? "",
+                                      style: Styles.textStyle1),
+                                ]),
+                            const Spacer(),
+                            Column(
                               children: [
-                                Text(product.description ?? "",
+                                CachedNetworkImage(
+                                    fit: BoxFit.fill,
+                                    width: 70.w,
+                                    height: 70.h,
+                                    imageUrl:
+                                        product.brands?.brandLogoImagePath ??
+                                            "",
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error)),
+                                Text(product.brands?.brandName ?? "",
                                     style: Styles.textStyle1),
-                                Text(product.name ?? "",
-                                    style: Styles.textStyle1),
-                              ]),
-                          const Spacer(),
-                          Column(
-                            children: [
-                              CachedNetworkImage(
-                                  fit: BoxFit.fill,
-                                  width: 70.w,
-                                  height: 70.h,
-                                  imageUrl:
-                                      product.brands?.brandLogoImagePath ?? "",
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error)),
-                              Text(product.brands?.brandName ?? "",
-                                  style: Styles.textStyle1),
-                            ],
-                          )
-                        ]),
-                        Text(
-                            "${Strings.egp} ${product.productVariations?[0].price.toString()}",
-                            style: Styles.textStyle1),
-                        state.areThereColors == true
-                            ? Expanded(
-                                child: Padding(
-                                    padding: EdgeInsets.all(20.w.h),
-                                    child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: state.colorsList
-                                            ?.length, // number of available colors
-                                        itemBuilder: (context, index) {
-                                          //  print(state.colorsList);
-                                          return Icon(Icons.circle,
-                                              color: Color(state.colorsList!
-                                                  .elementAt(index)));
-                                        })),
-                              )
-                            : const SizedBox.shrink(),
-                      ],
+                              ],
+                            )
+                          ]),
+                          Text(
+                              "${Strings.egp} ${product.productVariations?[0].price.toString()}",
+                              style: Styles.textStyle1),
+                          SizedBox(height: 10.h),
+                          state.areThereColors == true
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Select Color:",
+                                      style: Styles.textStyle1,
+                                    ),
+                                    SizedBox(height: 10.h),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 70.w),
+                                      child: SizedBox(
+                                        height: 45.h,
+                                        child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 15.w),
+                                            child: ListView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount: state.colorsList
+                                                    ?.length, // number of available colors
+                                                itemBuilder: (context, index) {
+                                                  //  print(state.colorsList);
+                                                  return Icon(Icons.circle,
+                                                      size: 50.sp,
+                                                      color: Color(state
+                                                          .colorsList!
+                                                          .elementAt(index)));
+                                                })),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : const SizedBox.shrink(),
+                          SizedBox(height: 10.h),
+                          state.areThereSizes == true
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Select Size:",
+                                      style: Styles.textStyle1,
+                                    ),
+                                    SizedBox(height: 15.h),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.w),
+                                      child: SizedBox(
+                                        height: 40.h,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: state.sizesList?.length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8),
+                                              child: Container(
+                                                width: 65.w,
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 8.h,
+                                                    horizontal: 20.w),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.blue,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.r)),
+                                                child: Text(
+                                                    state.sizesList!
+                                                        .elementAt(index),
+                                                    style: Styles.textStyle1),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : const SizedBox.shrink(),
+                          SizedBox(height: 15.h),
+
+                          state.areThereMaterials == true
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Select Material:",
+                                      style: Styles.textStyle1,
+                                    ),
+                                    SizedBox(height: 15.h),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.w),
+                                      child: SizedBox(
+                                        height: 40.h,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount:
+                                              state.materialsList?.length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 8.w),
+                                              child: Container(
+                                                width: 85.w,
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 8.h,
+                                                    horizontal: 20.w),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.blue,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.r)),
+                                                child: Text(
+                                                    state.materialsList!
+                                                        .elementAt(index),
+                                                    style: Styles.textStyle1),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : const SizedBox.shrink(),
+                        ],
+                      ),
                     ),
                   )
                 : const Center(
