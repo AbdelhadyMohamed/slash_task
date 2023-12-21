@@ -41,6 +41,9 @@ class ProductDetailsScreen extends StatelessWidget {
                     state.screenState ==
                         ScreenState
                             .colorChange // in this step i make sure that the images is loaded first before showing the carousal slider to avoid getting null value
+                    ||
+                    state.screenState == ScreenState.sizeChange ||
+                    state.screenState == ScreenState.materialChange
                 ? SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -118,7 +121,9 @@ class ProductDetailsScreen extends StatelessWidget {
                             )
                           ]),
                           Text(
-                              "${Strings.egp} ${state.detailedProduct?.data?.variations?[0].price.toString()}",
+                              state.screenState == ScreenState.sizeChange
+                                  ? "${Strings.egp} ${state.variation?.price?.toString()}"
+                                  : "${Strings.egp} ${state.detailedProduct?.data?.variations?[0].price.toString()}",
                               style: Styles.textStyle1),
                           SizedBox(height: 10.h),
                           state.areThereColors == true
@@ -174,15 +179,10 @@ class ProductDetailsScreen extends StatelessWidget {
                                                                   .elementAt(
                                                                       index)));
                                                     },
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100.r),
-                                                      child: Icon(Icons.circle,
-                                                          size: 50.sp,
-                                                          color: Color(int.parse(
-                                                              "0XFF${state.colorsList!.elementAt(index)}"))),
-                                                    ),
+                                                    child: Icon(Icons.circle,
+                                                        size: 50.sp,
+                                                        color: Color(int.parse(
+                                                            "0XFF${state.colorsList!.elementAt(index)}"))),
                                                   );
                                                 })),
                                       ),
@@ -209,25 +209,37 @@ class ProductDetailsScreen extends StatelessWidget {
                                           scrollDirection: Axis.horizontal,
                                           itemCount: state.sizesList?.length,
                                           itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8),
-                                              child: Container(
-                                                width: 65.w,
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 8.h,
-                                                    horizontal: 20.w),
-                                                decoration: BoxDecoration(
-                                                    color: AppColors
-                                                        .lightBlackColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20.r)),
-                                                child: Text(
-                                                    state.sizesList!
-                                                        .elementAt(index),
-                                                    style: Styles.textStyle1),
+                                            return InkWell(
+                                              onTap: () {
+                                                ProductDetailsBloc.get(context)
+                                                    .add(SizeClickedEvent(
+                                                        state.detailedProduct
+                                                                ?.data!.id ??
+                                                            0,
+                                                        index,
+                                                        state.sizesList!
+                                                            .elementAt(index)));
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
+                                                child: Container(
+                                                  width: 65.w,
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 8.h,
+                                                      horizontal: 20.w),
+                                                  decoration: BoxDecoration(
+                                                      color: AppColors
+                                                          .lightBlackColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.r)),
+                                                  child: Text(
+                                                      state.sizesList!
+                                                          .elementAt(index),
+                                                      style: Styles.textStyle1),
+                                                ),
                                               ),
                                             );
                                           },

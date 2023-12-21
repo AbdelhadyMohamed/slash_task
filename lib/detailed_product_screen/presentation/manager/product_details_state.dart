@@ -1,6 +1,14 @@
 part of 'product_details_bloc.dart';
 
-enum ScreenState { init, success, failure, loading, colorChange }
+enum ScreenState {
+  init,
+  success,
+  failure,
+  loading,
+  colorChange,
+  sizeChange,
+  materialChange
+}
 
 @immutable
 class ProductDetailsState {

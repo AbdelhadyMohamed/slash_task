@@ -88,6 +88,81 @@ class ProductDetailsBloc
                 failures: right, screenState: ScreenState.failure));
           },
         );
+      } else if (event is SizeClickedEvent) // if size changed in the ui
+      {
+        bool isColor = false;
+        bool isSize = false;
+        bool isMaterial = false;
+        var result = await productDetailsUseCase.call(event.id.toString());
+        result.fold(
+          (left) {
+            if (checkColor(left?.data?.avaiableProperties)) {
+              isColor = true;
+            }
+            if (checkSize(left?.data?.avaiableProperties)) {
+              isSize = true;
+            }
+            if (checkMaterial(left?.data?.avaiableProperties)) {
+              isMaterial = true;
+            }
+            int? id = getSizeId(event.size, left?.data?.avaiableProperties);
+            Variations? variation =
+                getSizeVariation(id.toString(), left?.data?.variations);
+            emit(state.copyWith(
+              variation: variation,
+              detailedProduct: left,
+              screenState: ScreenState.sizeChange,
+              areThereColors: isColor,
+              areThereMaterials: isMaterial,
+              areThereSizes: isSize,
+              colorsList: getColorsList(left?.data?.avaiableProperties),
+              sizesList: getSizesList(left?.data?.avaiableProperties),
+              materialsList: getMaterialsList(left?.data?.avaiableProperties),
+            ));
+          },
+          (right) {
+            emit(state.copyWith(
+                failures: right, screenState: ScreenState.failure));
+          },
+        );
+      } else if (event is MaterialClickedEvent) // if color changed in the ui
+      {
+        bool isColor = false;
+        bool isSize = false;
+        bool isMaterial = false;
+        var result = await productDetailsUseCase.call(event.id.toString());
+        result.fold(
+          (left) {
+            if (checkColor(left?.data?.avaiableProperties)) {
+              isColor = true;
+            }
+            if (checkSize(left?.data?.avaiableProperties)) {
+              isSize = true;
+            }
+            if (checkMaterial(left?.data?.avaiableProperties)) {
+              isMaterial = true;
+            }
+            int? id =
+                getMaterialId(event.material, left?.data?.avaiableProperties);
+            Variations? variation =
+                getColorVariation(id.toString(), left?.data?.variations);
+            emit(state.copyWith(
+              variation: variation,
+              detailedProduct: left,
+              screenState: ScreenState.colorChange,
+              areThereColors: isColor,
+              areThereMaterials: isMaterial,
+              areThereSizes: isSize,
+              colorsList: getColorsList(left?.data?.avaiableProperties),
+              sizesList: getSizesList(left?.data?.avaiableProperties),
+              materialsList: getMaterialsList(left?.data?.avaiableProperties),
+            ));
+          },
+          (right) {
+            emit(state.copyWith(
+                failures: right, screenState: ScreenState.failure));
+          },
+        );
       }
     });
   }
@@ -215,6 +290,56 @@ int? getColorId(String color, List<AvaiableProperties>? properties) {
 }
 
 Variations? getColorVariation(String id, List<Variations>? vars) {
+  for (int i = 0; i < vars!.length; i++) {
+    if (vars[i].id.toString() == id) {
+      return vars[i];
+    }
+  }
+  return null;
+}
+
+int? getSizeId(String size, List<AvaiableProperties>? properties) {
+  print(size);
+  for (int i = 0; i < properties!.length; i++) {
+    if (properties[i].property == "Size") {
+      for (int j = 0; j < properties[i].values!.length; j++) {
+        if (properties[i].values?[j].value?.toUpperCase() ==
+            size.toUpperCase()) {
+          print(properties[i].values?[j].value);
+          return properties[i].values?[j].id;
+        }
+      }
+    }
+  }
+  return null;
+}
+
+Variations? getSizeVariation(String id, List<Variations>? vars) {
+  for (int i = 0; i < vars!.length; i++) {
+    if (vars[i].id.toString() == id) {
+      return vars[i];
+    }
+  }
+  return null;
+}
+
+int? getMaterialId(String material, List<AvaiableProperties>? properties) {
+  print(material);
+  for (int i = 0; i < properties!.length; i++) {
+    if (properties[i].property == "Material") {
+      for (int j = 0; j < properties[i].values!.length; j++) {
+        print(properties[i].values?[j].value);
+
+        if (properties[i].values?[j].value == material) {
+          return properties[i].values?[j].id;
+        }
+      }
+    }
+  }
+  return null;
+}
+
+Variations? getMaterialVariation(String id, List<Variations>? vars) {
   for (int i = 0; i < vars!.length; i++) {
     if (vars[i].id.toString() == id) {
       return vars[i];
