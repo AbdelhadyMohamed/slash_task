@@ -49,6 +49,8 @@ class ProductDetailsBloc
                 failures: right, screenState: ScreenState.failure));
           },
         );
+      } else if (event is ChangeImages) {
+        emit(state.copyWith(variationIndex: event.index));
       }
     });
   }
@@ -91,7 +93,7 @@ bool checkMaterial(
   return false;
 }
 
-Set<int>? getColorsList(
+Set<String>? getColorsList(
     List<AvaiableProperties>?
         prop) // get the colors list(it could be null so that means there is no colors same as if previous function returns false so we can remove the boolean function
 {
@@ -100,7 +102,7 @@ Set<int>? getColorsList(
   {
     return null;
   }
-  Set<int>?
+  Set<String>?
       colorsList; // set data structure is used instead of list because we do not want to add redundant data(colors or others)
 
   for (int i = 0; i < prop!.length; i++) {
@@ -108,8 +110,8 @@ Set<int>? getColorsList(
       colorsList = {};
       for (int j = 0; j < prop[i].values!.length; j++) {
         if (prop[i].values![j].value != null) {
-          colorsList.add(int.parse(
-              "0xFF${prop[i].values![j].value!.replaceAll("#", "")}")); // some of colors come from api with # so we need to remove it first
+          colorsList.add(prop[i].values![j].value!.replaceAll("#",
+              "")); // some of colors come from api with # so we need to remove it first
         }
       }
       break;

@@ -10,43 +10,44 @@ class ProductDetailsState {
   final bool? areThereColors;
   final bool? areThereSizes;
   final bool? areThereMaterials;
-  final Set<int>? colorsList;
+  final Set<String>? colorsList;
   final Set<String>? sizesList;
   final Set<String>? materialsList;
+  final int? variationIndex;
 
-  const ProductDetailsState({
-    this.screenState,
-    this.detailedProduct,
-    this.failures,
-    this.areThereColors,
-    this.areThereSizes,
-    this.areThereMaterials,
-    this.colorsList,
-    this.sizesList,
-    this.materialsList,
-  });
-  ProductDetailsState copyWith({
-    ScreenState? screenState,
-    DetailedProduct? detailedProduct,
-    Failures? failures,
-    bool areThereColors = false,
-    bool areThereSizes = false,
-    bool areThereMaterials = false,
-    Set<int>? colorsList,
-    Set<String>? sizesList,
-    Set<String>? materialsList,
-  }) {
+  const ProductDetailsState(
+      {this.screenState,
+      this.detailedProduct,
+      this.failures,
+      this.areThereColors,
+      this.areThereSizes,
+      this.areThereMaterials,
+      this.colorsList,
+      this.sizesList,
+      this.materialsList,
+      this.variationIndex});
+  ProductDetailsState copyWith(
+      {ScreenState? screenState,
+      DetailedProduct? detailedProduct,
+      Failures? failures,
+      bool areThereColors = false,
+      bool areThereSizes = false,
+      bool areThereMaterials = false,
+      Set<String>? colorsList,
+      Set<String>? sizesList,
+      Set<String>? materialsList,
+      int? variationIndex}) {
     return ProductDetailsState(
-      screenState: screenState,
-      detailedProduct: detailedProduct,
-      failures: failures,
-      areThereColors: areThereColors,
-      areThereSizes: areThereSizes,
-      areThereMaterials: areThereMaterials,
-      colorsList: colorsList,
-      sizesList: sizesList,
-      materialsList: materialsList,
-    );
+        screenState: screenState,
+        detailedProduct: detailedProduct,
+        failures: failures,
+        areThereColors: areThereColors,
+        areThereSizes: areThereSizes,
+        areThereMaterials: areThereMaterials,
+        colorsList: colorsList,
+        sizesList: sizesList,
+        materialsList: materialsList,
+        variationIndex: variationIndex ?? 0);
   }
 }
 

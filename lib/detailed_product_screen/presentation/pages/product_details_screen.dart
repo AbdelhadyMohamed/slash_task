@@ -19,7 +19,8 @@ class ProductDetailsScreen extends StatelessWidget {
     var product = ModalRoute.of(context)?.settings.arguments
         as Data; //getting the index of current item from product list page
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: Colors.black54,
+      //  backgroundColor: AppColors.primaryColor,
       appBar: AppBar(
         iconTheme: const IconThemeData(
           color: AppColors.secondaryColor, //change your color here
@@ -55,8 +56,12 @@ class ProductDetailsScreen extends StatelessWidget {
                                 enlargeFactor: 0.4,
                                 scrollDirection: Axis.horizontal,
                               ),
-                              itemCount: product.productVariations?[0]
-                                  .productVarientImages?.length,
+                              itemCount: state
+                                  .detailedProduct
+                                  ?.data
+                                  ?.variations?[state.variationIndex ?? 0]
+                                  .productVarientImages
+                                  ?.length,
                               itemBuilder: (BuildContext context, int index,
                                       int realIndex) =>
                                   CachedNetworkImage(
@@ -105,7 +110,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Select Color:",
+                                      Strings.selectColor,
                                       style: Styles.textStyle1,
                                     ),
                                     SizedBox(height: 10.h),
@@ -123,12 +128,28 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 itemCount: state.colorsList
                                                     ?.length, // number of available colors
                                                 itemBuilder: (context, index) {
-                                                  //  print(state.colorsList);
-                                                  return Icon(Icons.circle,
-                                                      size: 50.sp,
-                                                      color: Color(state
-                                                          .colorsList!
-                                                          .elementAt(index)));
+                                                  print(int.parse(
+                                                          "0XFF${state.colorsList!.elementAt(index)}")
+                                                      .toRadixString(
+                                                          16)); // print the colors in hex code
+                                                  return InkWell(
+                                                    onTap: () {
+                                                      getIt<ProductDetailsBloc>()
+                                                          .add(ChangeImages(state
+                                                                  .detailedProduct
+                                                                  ?.data
+                                                                  ?.avaiableProperties?[
+                                                                      0]
+                                                                  .values?[
+                                                                      index]
+                                                                  .id ??
+                                                              0));
+                                                    },
+                                                    child: Icon(Icons.circle,
+                                                        size: 50.sp,
+                                                        color: Color(int.parse(
+                                                            "0XFF${state.colorsList!.elementAt(index)}"))),
+                                                  );
                                                 })),
                                       ),
                                     ),
@@ -141,7 +162,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Select Size:",
+                                      Strings.selectSize,
                                       style: Styles.textStyle1,
                                     ),
                                     SizedBox(height: 15.h),
@@ -164,7 +185,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                                     vertical: 8.h,
                                                     horizontal: 20.w),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.blue,
+                                                    color: AppColors
+                                                        .lightBlackColor,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             20.r)),
@@ -188,7 +210,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Select Material:",
+                                      Strings.selectMaterial,
                                       style: Styles.textStyle1,
                                     ),
                                     SizedBox(height: 15.h),
@@ -211,7 +233,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                                     vertical: 8.h,
                                                     horizontal: 20.w),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.blue,
+                                                    color: AppColors
+                                                        .lightBlackColor,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             20.r)),

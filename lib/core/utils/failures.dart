@@ -10,7 +10,3 @@ abstract class Failures {
 class RemoteFailures extends Failures {
   RemoteFailures(super.message);
 }
-
-class LocalFailures extends Failures {
-  LocalFailures(super.message);
-}
