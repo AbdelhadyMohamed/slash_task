@@ -1,16 +1,1 @@
-# slash
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This task involves creating two screens. The first screen will display a list of products obtained from an API provided by Slash Company (used for testing). The second screen will show the details of each product, including its attributes such as color, size, and material. This isn't a complete app; it's a smaller assignment focusing on these specific screens.
