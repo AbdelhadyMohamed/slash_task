@@ -304,6 +304,10 @@ class ProductDetailsScreen extends StatelessWidget {
                                   ],
                                 )
                               : const SizedBox.shrink(),
+                          Center(
+                            child: ElevatedButton(
+                                onPressed: () {}, child: Text("Add To Cart")),
+                          )
                         ],
                       ),
                     ),
