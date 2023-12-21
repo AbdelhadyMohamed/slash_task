@@ -145,11 +145,11 @@ class ProductDetailsBloc
             int? id =
                 getMaterialId(event.material, left?.data?.avaiableProperties);
             Variations? variation =
-                getColorVariation(id.toString(), left?.data?.variations);
+                getMaterialVariation(id.toString(), left?.data?.variations);
             emit(state.copyWith(
               variation: variation,
               detailedProduct: left,
-              screenState: ScreenState.colorChange,
+              screenState: ScreenState.materialChange,
               areThereColors: isColor,
               areThereMaterials: isMaterial,
               areThereSizes: isSize,
@@ -328,9 +328,8 @@ int? getMaterialId(String material, List<AvaiableProperties>? properties) {
   for (int i = 0; i < properties!.length; i++) {
     if (properties[i].property == "Material") {
       for (int j = 0; j < properties[i].values!.length; j++) {
-        print(properties[i].values?[j].value);
-
         if (properties[i].values?[j].value == material) {
+          print(properties[i].values?[j].value);
           return properties[i].values?[j].id;
         }
       }

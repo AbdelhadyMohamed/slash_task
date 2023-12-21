@@ -121,7 +121,11 @@ class ProductDetailsScreen extends StatelessWidget {
                             )
                           ]),
                           Text(
-                              state.screenState == ScreenState.sizeChange
+                              state.screenState == ScreenState.sizeChange ||
+                                      state.screenState ==
+                                          ScreenState.sizeChange ||
+                                      state.screenState ==
+                                          ScreenState.colorChange
                                   ? "${Strings.egp} ${state.variation?.price?.toString()}"
                                   : "${Strings.egp} ${state.detailedProduct?.data?.variations?[0].price.toString()}",
                               style: Styles.textStyle1),
@@ -270,24 +274,36 @@ class ProductDetailsScreen extends StatelessWidget {
                                           itemCount:
                                               state.materialsList?.length,
                                           itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 8.w),
-                                              child: Container(
-                                                width: 85.w,
+                                            return InkWell(
+                                              onTap: () {
+                                                ProductDetailsBloc.get(context)
+                                                    .add(MaterialClickedEvent(
+                                                        state.detailedProduct
+                                                                ?.data!.id ??
+                                                            0,
+                                                        index,
+                                                        state.materialsList!
+                                                            .elementAt(index)));
+                                              },
+                                              child: Padding(
                                                 padding: EdgeInsets.symmetric(
-                                                    vertical: 8.h,
-                                                    horizontal: 20.w),
-                                                decoration: BoxDecoration(
-                                                    color: AppColors
-                                                        .lightBlackColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20.r)),
-                                                child: Text(
-                                                    state.materialsList!
-                                                        .elementAt(index),
-                                                    style: Styles.textStyle1),
+                                                    horizontal: 8.w),
+                                                child: Container(
+                                                  width: 85.w,
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 8.h,
+                                                      horizontal: 20.w),
+                                                  decoration: BoxDecoration(
+                                                      color: AppColors
+                                                          .lightBlackColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.r)),
+                                                  child: Text(
+                                                      state.materialsList!
+                                                          .elementAt(index),
+                                                      style: Styles.textStyle1),
+                                                ),
                                               ),
                                             );
                                           },
