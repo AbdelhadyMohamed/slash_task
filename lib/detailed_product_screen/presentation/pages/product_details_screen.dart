@@ -19,8 +19,7 @@ class ProductDetailsScreen extends StatelessWidget {
     var product = ModalRoute.of(context)?.settings.arguments
         as Data; //getting the index of current item from product list page
     return Scaffold(
-      backgroundColor: Colors.black54,
-      //  backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.primaryColor,
       appBar: AppBar(
         iconTheme: const IconThemeData(
           color: AppColors.secondaryColor, //change your color here
@@ -153,25 +152,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 itemCount: state.colorsList
                                                     ?.length, // number of available colors
                                                 itemBuilder: (context, index) {
-                                                  // print(int.parse(
-                                                  //         "0XFF${state.colorsList!.elementAt(index)}")
-                                                  //     .toRadixString(
-                                                  //         16)); // print the colors in hex code
                                                   return InkWell(
                                                     onTap: () {
-                                                      // print(state
-                                                      //     .detailedProduct
-                                                      //     ?.data
-                                                      //     ?.avaiableProperties?[
-                                                      //         0]
-                                                      //     .values?[index]
-                                                      //     .id);
-                                                      // print(state
-                                                      //         .variation
-                                                      //         ?.productVarientImages![
-                                                      //             index]
-                                                      //         .imagePath ??
-                                                      //     "");
                                                       ProductDetailsBloc
                                                               .get(context)
                                                           .add(ColorClickedEvent(
@@ -186,7 +168,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                                     child: Icon(Icons.circle,
                                                         size: 50.sp,
                                                         color: Color(int.parse(
-                                                            "0XFF${state.colorsList!.elementAt(index)}"))),
+                                                            "0XFF${state.colorsList!.elementAt(index) == "000000" || state.colorsList!.elementAt(index) == "00000" ? "454545" : state.colorsList!.elementAt(index)}"))), // handling black color because of the background black color
                                                   );
                                                 })),
                                       ),
@@ -234,8 +216,12 @@ class ProductDetailsScreen extends StatelessWidget {
                                                       vertical: 8.h,
                                                       horizontal: 20.w),
                                                   decoration: BoxDecoration(
-                                                      color: AppColors
-                                                          .lightBlackColor,
+                                                      color: state.sizeIndex ==
+                                                              index
+                                                          ? AppColors
+                                                              .yellowGreenColor
+                                                          : AppColors
+                                                              .lightBlackColor,
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20.r)),
@@ -294,8 +280,13 @@ class ProductDetailsScreen extends StatelessWidget {
                                                       vertical: 8.h,
                                                       horizontal: 20.w),
                                                   decoration: BoxDecoration(
-                                                      color: AppColors
-                                                          .lightBlackColor,
+                                                      color: state
+                                                                  .materialIndex ==
+                                                              index
+                                                          ? AppColors
+                                                              .yellowGreenColor
+                                                          : AppColors
+                                                              .lightBlackColor,
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20.r)),

@@ -23,20 +23,23 @@ class ProductDetailsState {
   final Set<String>? materialsList;
   final int? variationID;
   final Variations? variation;
+  final int? sizeIndex;
+  final int? materialIndex;
 
-  const ProductDetailsState({
-    this.screenState,
-    this.detailedProduct,
-    this.failures,
-    this.areThereColors,
-    this.areThereSizes,
-    this.areThereMaterials,
-    this.colorsList,
-    this.sizesList,
-    this.materialsList,
-    this.variationID,
-    this.variation,
-  });
+  const ProductDetailsState(
+      {this.screenState,
+      this.detailedProduct,
+      this.failures,
+      this.areThereColors,
+      this.areThereSizes,
+      this.areThereMaterials,
+      this.colorsList,
+      this.sizesList,
+      this.materialsList,
+      this.variationID,
+      this.variation,
+      this.sizeIndex,
+      this.materialIndex});
   ProductDetailsState copyWith(
       {ScreenState? screenState,
       DetailedProduct? detailedProduct,
@@ -48,20 +51,23 @@ class ProductDetailsState {
       Set<String>? sizesList,
       Set<String>? materialsList,
       int? variationID,
-      Variations? variation}) {
+      Variations? variation,
+      int? sizeIndex,
+      int? materialIndex}) {
     return ProductDetailsState(
-      screenState: screenState,
-      detailedProduct: detailedProduct,
-      failures: failures,
-      areThereColors: areThereColors,
-      areThereSizes: areThereSizes,
-      areThereMaterials: areThereMaterials,
-      colorsList: colorsList,
-      sizesList: sizesList,
-      materialsList: materialsList,
-      variationID: variationID ?? 0,
-      variation: variation,
-    );
+        screenState: screenState,
+        detailedProduct: detailedProduct,
+        failures: failures,
+        areThereColors: areThereColors,
+        areThereSizes: areThereSizes,
+        areThereMaterials: areThereMaterials,
+        colorsList: colorsList,
+        sizesList: sizesList,
+        materialsList: materialsList,
+        variationID: variationID ?? 0,
+        variation: variation,
+        sizeIndex: sizeIndex,
+        materialIndex: materialIndex);
   }
 }
 

@@ -28,3 +28,15 @@ class MaterialClickedEvent extends ProductDetailsEvent {
   final String material;
   MaterialClickedEvent(this.id, this.ind, this.material);
 }
+
+class ChangeSizeIndex extends ProductDetailsEvent {
+  final int ind;
+  final int materialInd;
+  ChangeSizeIndex(this.ind, this.materialInd);
+}
+
+class ChangeMaterialIndex extends ProductDetailsEvent {
+  final int ind;
+  final int sizeIndex;
+  ChangeMaterialIndex(this.ind, this.sizeIndex);
+}

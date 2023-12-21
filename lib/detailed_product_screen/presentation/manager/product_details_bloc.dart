@@ -109,6 +109,7 @@ class ProductDetailsBloc
             Variations? variation =
                 getSizeVariation(id.toString(), left?.data?.variations);
             emit(state.copyWith(
+              sizeIndex: event.ind,
               variation: variation,
               detailedProduct: left,
               screenState: ScreenState.sizeChange,
@@ -147,6 +148,7 @@ class ProductDetailsBloc
             Variations? variation =
                 getMaterialVariation(id.toString(), left?.data?.variations);
             emit(state.copyWith(
+              materialIndex: event.ind,
               variation: variation,
               detailedProduct: left,
               screenState: ScreenState.materialChange,
