@@ -8,7 +8,9 @@ class FetchProductDetails extends ProductDetailsEvent {
   FetchProductDetails(this.id);
 }
 
-class ChangeImages extends ProductDetailsEvent {
-  final int index;
-  ChangeImages(this.index);
+class ColorClickedEvent extends ProductDetailsEvent {
+  final int id;
+  final int ind;
+  final String color;
+  ColorClickedEvent(this.id, this.ind, this.color);
 }

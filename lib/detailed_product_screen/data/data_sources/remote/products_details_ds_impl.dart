@@ -5,9 +5,6 @@ import 'package:injectable/injectable.dart';
 import 'package:slash/core/api/api_manager.dart';
 import 'package:slash/core/utils/constants.dart';
 import 'package:slash/detailed_product_screen/data/data_sources/remote/products_details_ds.dart';
-import 'package:slash/products_screen/data/data_sources/remote/products_ds.dart';
-import 'package:slash/products_screen/data/models/product.dart';
-
 import '../../../../core/utils/failures.dart';
 import '../../models/DetailedProduct.dart';
 

@@ -37,9 +37,10 @@ class ProductDetailsScreen extends StatelessWidget {
             // print(state.sizesList?.length);
             // print(state.areThereMaterials);
             //  print(state.areThereSizes);
-            return state.screenState ==
-                    ScreenState
-                        .success // in this step i make sure that the images is loaded first before showing the carousal slider to avoid getting null value
+            return state.screenState == ScreenState.success ||
+                    state.screenState ==
+                        ScreenState
+                            .colorChange // in this step i make sure that the images is loaded first before showing the carousal slider to avoid getting null value
                 ? SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -59,7 +60,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               itemCount: state
                                   .detailedProduct
                                   ?.data
-                                  ?.variations?[state.variationIndex ?? 0]
+                                  ?.variations?[state.variationID ?? 0]
                                   .productVarientImages
                                   ?.length,
                               itemBuilder: (BuildContext context, int index,
@@ -67,11 +68,21 @@ class ProductDetailsScreen extends StatelessWidget {
                                   CachedNetworkImage(
                                       fit: BoxFit.fitWidth,
                                       width: 250.w,
-                                      imageUrl: product
-                                              .productVariations?[0]
-                                              .productVarientImages?[index]
-                                              .imagePath ??
-                                          "",
+                                      imageUrl: state.screenState ==
+                                              ScreenState.colorChange
+                                          ? state
+                                                  .variation
+                                                  ?.productVarientImages![index]
+                                                  .imagePath ??
+                                              ""
+                                          : state
+                                                  .detailedProduct
+                                                  ?.data!
+                                                  .variations?[
+                                                      state.variationID ?? 0]
+                                                  .productVarientImages?[index]
+                                                  .imagePath ??
+                                              "",
                                       errorWidget: (context, url, error) =>
                                           const Icon(Icons
                                               .error))), //show error icon in case of any error in the image
@@ -79,9 +90,12 @@ class ProductDetailsScreen extends StatelessWidget {
                             Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(product.description ?? "",
+                                  Text(
+                                      state.detailedProduct?.data
+                                              ?.description ??
+                                          "",
                                       style: Styles.textStyle1),
-                                  Text(product.name ?? "",
+                                  Text(state.detailedProduct?.data?.name ?? "",
                                       style: Styles.textStyle1),
                                 ]),
                             const Spacer(),
@@ -91,18 +105,20 @@ class ProductDetailsScreen extends StatelessWidget {
                                     fit: BoxFit.fill,
                                     width: 70.w,
                                     height: 70.h,
-                                    imageUrl:
-                                        product.brands?.brandLogoImagePath ??
-                                            "",
+                                    imageUrl: state.detailedProduct?.data
+                                            ?.brandImage ??
+                                        "",
                                     errorWidget: (context, url, error) =>
                                         const Icon(Icons.error)),
-                                Text(product.brands?.brandName ?? "",
+                                Text(
+                                    state.detailedProduct?.data?.brandName ??
+                                        "",
                                     style: Styles.textStyle1),
                               ],
                             )
                           ]),
                           Text(
-                              "${Strings.egp} ${product.productVariations?[0].price.toString()}",
+                              "${Strings.egp} ${state.detailedProduct?.data?.variations?[0].price.toString()}",
                               style: Styles.textStyle1),
                           SizedBox(height: 10.h),
                           state.areThereColors == true
@@ -128,27 +144,45 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 itemCount: state.colorsList
                                                     ?.length, // number of available colors
                                                 itemBuilder: (context, index) {
-                                                  print(int.parse(
-                                                          "0XFF${state.colorsList!.elementAt(index)}")
-                                                      .toRadixString(
-                                                          16)); // print the colors in hex code
+                                                  // print(int.parse(
+                                                  //         "0XFF${state.colorsList!.elementAt(index)}")
+                                                  //     .toRadixString(
+                                                  //         16)); // print the colors in hex code
                                                   return InkWell(
                                                     onTap: () {
-                                                      getIt<ProductDetailsBloc>()
-                                                          .add(ChangeImages(state
-                                                                  .detailedProduct
-                                                                  ?.data
-                                                                  ?.avaiableProperties?[
-                                                                      0]
-                                                                  .values?[
-                                                                      index]
-                                                                  .id ??
-                                                              0));
+                                                      // print(state
+                                                      //     .detailedProduct
+                                                      //     ?.data
+                                                      //     ?.avaiableProperties?[
+                                                      //         0]
+                                                      //     .values?[index]
+                                                      //     .id);
+                                                      // print(state
+                                                      //         .variation
+                                                      //         ?.productVarientImages![
+                                                      //             index]
+                                                      //         .imagePath ??
+                                                      //     "");
+                                                      ProductDetailsBloc
+                                                              .get(context)
+                                                          .add(ColorClickedEvent(
+                                                              state.detailedProduct
+                                                                      ?.data!.id ??
+                                                                  0,
+                                                              index,
+                                                              state.colorsList!
+                                                                  .elementAt(
+                                                                      index)));
                                                     },
-                                                    child: Icon(Icons.circle,
-                                                        size: 50.sp,
-                                                        color: Color(int.parse(
-                                                            "0XFF${state.colorsList!.elementAt(index)}"))),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100.r),
+                                                      child: Icon(Icons.circle,
+                                                          size: 50.sp,
+                                                          color: Color(int.parse(
+                                                              "0XFF${state.colorsList!.elementAt(index)}"))),
+                                                    ),
                                                   );
                                                 })),
                                       ),

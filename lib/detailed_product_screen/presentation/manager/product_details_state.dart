@@ -1,6 +1,6 @@
 part of 'product_details_bloc.dart';
 
-enum ScreenState { init, success, failure, loading }
+enum ScreenState { init, success, failure, loading, colorChange }
 
 @immutable
 class ProductDetailsState {
@@ -13,19 +13,22 @@ class ProductDetailsState {
   final Set<String>? colorsList;
   final Set<String>? sizesList;
   final Set<String>? materialsList;
-  final int? variationIndex;
+  final int? variationID;
+  final Variations? variation;
 
-  const ProductDetailsState(
-      {this.screenState,
-      this.detailedProduct,
-      this.failures,
-      this.areThereColors,
-      this.areThereSizes,
-      this.areThereMaterials,
-      this.colorsList,
-      this.sizesList,
-      this.materialsList,
-      this.variationIndex});
+  const ProductDetailsState({
+    this.screenState,
+    this.detailedProduct,
+    this.failures,
+    this.areThereColors,
+    this.areThereSizes,
+    this.areThereMaterials,
+    this.colorsList,
+    this.sizesList,
+    this.materialsList,
+    this.variationID,
+    this.variation,
+  });
   ProductDetailsState copyWith(
       {ScreenState? screenState,
       DetailedProduct? detailedProduct,
@@ -36,18 +39,21 @@ class ProductDetailsState {
       Set<String>? colorsList,
       Set<String>? sizesList,
       Set<String>? materialsList,
-      int? variationIndex}) {
+      int? variationID,
+      Variations? variation}) {
     return ProductDetailsState(
-        screenState: screenState,
-        detailedProduct: detailedProduct,
-        failures: failures,
-        areThereColors: areThereColors,
-        areThereSizes: areThereSizes,
-        areThereMaterials: areThereMaterials,
-        colorsList: colorsList,
-        sizesList: sizesList,
-        materialsList: materialsList,
-        variationIndex: variationIndex ?? 0);
+      screenState: screenState,
+      detailedProduct: detailedProduct,
+      failures: failures,
+      areThereColors: areThereColors,
+      areThereSizes: areThereSizes,
+      areThereMaterials: areThereMaterials,
+      colorsList: colorsList,
+      sizesList: sizesList,
+      materialsList: materialsList,
+      variationID: variationID ?? 0,
+      variation: variation,
+    );
   }
 }
 
